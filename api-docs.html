@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finance Dashboard — API Docs</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #fafafa;
+  --text: #111;
+  --muted: #888;
+  --border: #e5e5e5;
+  --get: #16a34a;
+  --post: #2563eb;
+  --put: #d97706;
+  --del: #dc2626;
+  --mono: 'Geist Mono', monospace;
+  --sans: 'Geist', sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.wrap {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 80px 24px 120px;
+}
+
+header {
+  margin-bottom: 64px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+h1 {
+  font-family: var(--mono);
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 12px;
+  font-family: var(--mono);
+}
+
+.meta-row {
+  display: flex;
+  gap: 24px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.meta { display: flex; flex-direction: column; gap: 2px; }
+
+.meta-k {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  font-family: var(--mono);
+}
+
+.meta-v {
+  font-size: 12px;
+  font-family: var(--mono);
+  color: var(--text);
+}
+
+section { margin-bottom: 56px; }
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.endpoint {
+  border-top: 1px solid var(--border);
+  padding: 14px 0;
+  cursor: pointer;
+}
+
+.endpoint:last-child { border-bottom: 1px solid var(--border); }
+
+.endpoint-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.method {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  width: 40px;
+  flex-shrink: 0;
+  letter-spacing: 0.04em;
+}
+
+.m-get  { color: var(--get); }
+.m-post { color: var(--post); }
+.m-put  { color: var(--put); }
+.m-del  { color: var(--del); }
+
+.path {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text);
+  flex: 1;
+}
+
+.path .p { color: var(--muted); }
+.role { font-family: var(--mono); font-size: 10px; color: var(--muted); flex-shrink: 0; }
+
+.ep-body {
+  display: none;
+  padding: 16px 0 4px 52px;
+}
+
+.endpoint.open .ep-body { display: block; }
+
+.ep-body-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  font-family: var(--mono);
+  margin-bottom: 8px;
+  margin-top: 14px;
+}
+
+.ep-body-label:first-child { margin-top: 0; }
+
+pre {
+  background: #f4f4f4;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 12px 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.7;
+  overflow-x: auto;
+  color: #333;
+}
+
+.k { color: #2563eb; }
+.s { color: #16a34a; }
+.n { color: #d97706; }
+.c { color: #aaa; font-style: italic; }
+
+table { width: 100%; border-collapse: collapse; font-size: 11px; font-family: var(--mono); }
+
+th {
+  text-align: left;
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0 8px 6px 0;
+  border-bottom: 1px solid var(--border);
+  font-weight: 400;
+}
+
+td {
+  padding: 7px 8px 7px 0;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: top;
+  color: #444;
+}
+
+td:first-child { color: var(--text); }
+td:last-child { color: var(--muted); }
+tr:last-child td { border-bottom: none; }
+
+.info-block {
+  background: #f4f4f4;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 14px 16px;
+  font-size: 12px;
+  color: #555;
+  line-height: 1.7;
+  font-family: var(--mono);
+}
+
+code {
+  background: #eee;
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 11px;
+}
+
+.roles-wrap td, .roles-wrap th { padding: 8px 12px 8px 0; }
+.yes { color: var(--get); }
+.no  { color: #ccc; }
+
+.errors {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 8px;
+}
+
+.err {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 10px 12px;
+}
+
+.err-code {
+  font-family: var(--mono);
+  font-size: 16px;
+  font-weight: 300;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.err-name { font-size: 10px; color: var(--muted); font-family: var(--mono); }
+
+.step { display: flex; gap: 16px; margin-bottom: 20px; align-items: flex-start; }
+.step-n { font-family: var(--mono); font-size: 11px; color: var(--muted); width: 20px; flex-shrink: 0; padding-top: 2px; }
+.step-body { flex: 1; }
+.step-title { font-size: 12px; color: var(--text); margin-bottom: 8px; font-family: var(--mono); }
+
+footer {
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+  font-size: 11px;
+  color: var(--muted);
+  font-family: var(--mono);
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Finance Dashboard — API Reference</h1>
+    <div class="subtitle">Zorvyn Backend Developer Assessment · REST API · v1</div>
+    <div class="meta-row">
+      <div class="meta"><span class="meta-k">Base URL</span><span class="meta-v">/api/v1</span></div>
+      <div class="meta"><span class="meta-k">Auth</span><span class="meta-v">JWT Bearer · 1hr</span></div>
+      <div class="meta"><span class="meta-k">Runtime</span><span class="meta-v">Node.js 24 · Express 5</span></div>
+      <div class="meta"><span class="meta-k">ORM</span><span class="meta-v">Prisma 5 · PostgreSQL</span></div>
+    </div>
+  </header>
+
+  <section>
+    <div class="section-label">Authentication</div>
+    <div class="info-block">
+      Pass the JWT token from <code>/auth/login</code> in the Authorization header:<br><br>
+      <strong>Authorization: Bearer &lt;token&gt;</strong><br><br>
+      Tokens expire after 1 hour. All dashboard and transaction endpoints require a valid token.
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">Auth</div>
+
+    <div class="endpoint" onclick="toggle(this)">
+      <div class="endpoint-row">
+        <span class="method m-post">POST</span>
+        <span class="path">/auth/register</span>
+        <span class="role">public</span>
+      </div>
+      <div class="ep-body">
+        <div class="ep-body-label">Body</div>
+        <table>
+          <tr><th>Field</th><th>Type</th><th>Notes</th></tr>
+          <tr><td>name</td><td>string</td><td>required</td></tr>
+          <tr><td>email</td><td>string</td><td>required · unique</td></tr>
+          <tr><td>password</td><td>string</td><td>required · bcrypt hashed</td></tr>
+          <tr><td>role</td><td>ADMIN | ANALYST | VIEWER</td><td>optional · default VIEWER</td></tr>
+        </table>
+        <div class="ep-body-label">Response 201</div>
+        <pre>{ <span class="k">"message"</span>: <span class="s">"User registered successfully"</span>, <span class="k">"user"</span>: { <span class="c">/* id, name, email, role */</span> } }</pre>
+      </div>
+    </div>
+
+    <div class="endpoint" onclick="toggle(this)">
+      <div class="endpoint-row">
+        <span class="method m-post">POST</span>
+        <span class="path">/auth/login</span>
+        <span class="role">public</span>
+      </div>
+      <div class="ep-body">
+        <div class="ep-body-label">Body</div>
+        <table>
+          <tr><th>Field</th><th>Type</th><th>Notes</th></tr>
+          <tr><td>email</td><td>string</td><td>required</td></tr>
+          <tr><td>password</td><td>string</td><td>required</td></tr>
+        </table>
+        <div class="ep-body-label">Response 200</div>
+        <pre>{ <span class="k">"token"</span>: <span class="s">"eyJhbGci..."</span>, <span class="k">"user"</span>: { <span class="k">"id"</span>, <span class="k">"name"</span>, <span class="k">"role"</span> } }</pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">Transactions</div>
+
+    <div class="endpoint" onclick="toggle(this)">
+      <div class="endpoint-row">
+        <span class="method m-post">POST</span>
+        <span class="path">/transactions</span>
+        <span class="role">admin</span>
+      </div>
+      <div class="ep-body">
+        <div class="ep-body-label">Body</div>
+        <table>
+          <tr><th>Field</th><th>Type</th><th>Notes</th></tr>
+          <tr><td>title</td><td>string</td><td>required</td></tr>
+          <tr><td>amount</td><td>number</td><td>required · positive</td></tr>
+          <tr><td>type</td><td>INCOME | EXPENSE</td><td>required</td></tr>
+          <tr><td>category</td><td>string</td><td>required</td></tr>
+          <tr><td>date</td><td>string</td><td>required · ISO-8601</td></tr>
+          <tr><td>description</td><td>string</td><td>optional</td></tr>
+        </table>
+        <div class="ep-body-label">Response 201</div>
+        <pre>{ <span class="k">"message"</span>: <span class="s">"Transaction created"</span>, <span class="k">"transaction"</span>: { <span class="c">/* full object */</span> } }</pre>
+      </div>
+    </div>
+
+    <div class="endpoint" onclick="toggle(this)">
+      <div class="endpoint-row">
+        <span class="method m-get">GET</span>
+        <span class="path">/transactions</span>
+        <span class="role">all roles</span>
+      </div>
+      <div class="ep-body">
+        <div class="ep-body-label">Query params</div>
+        <table>
+          <tr><th>Param</th><th>Type</th><th>Notes</th></tr>
+          <tr><td>page</td><td>number</td><td>default 1</td></tr>
+          <tr><td>limit</td><td>number</td><td>default 20</td></tr>
+          <tr><td>type</td><td>INCOME | EXPENSE</td><td>optional filter</td></tr>
+          <tr><td>category</td><td>string</td><td>optional filter</td></tr>
+        </table>
+        <div class="ep-body-label">Response 200</div>
+        <pre>{ <span class="k">"transactions"</span>: [...], <span class="k">"total"</span>: <span class="n">42</span>, <span class="k">"page"</span>: <span class="n">1</span> }</pre>
+      </div>
+    </div>
+
+    <div class="endpoint" onclick="toggle(this)">
+      <div class="endpoint-row">
+        <span class="method m-get">GET</span>
+        <span class="path">/transactions/<span class="p">:id</span></span>
+        <span class="role">all roles</span>
+      </div>
+      <div class="ep-body">
+        <div class="ep-body-label">Path</div>
+        <table>
+          <tr><th>Param</th><th>Type</th><th>Notes</th></tr>
+          <tr><td>id</td><td>string</td><td>UUID of transaction</td></tr>
+        </table>
+        <div class="ep-body-label">Response 200</div>
+        <pre>{ <span class="k">"transaction"</span>: { <span class="k">"id"</span>, <span class="k">"title"</span>, <span class="k">"amount"</span>, <span class="k">"type"</span>, <span class="k">"category"</span>, <span class="k">"date"</span>, <span class="k">"userId"</span> } }</pre>
+      </div>
+    </div>
+
+    <div class="endpoint" onclick="toggle(this)">
+      <div class="endpoint-row">
+        <span class="method m-put">PUT</span>
+        <span class="path">/transactions/<span class="p">:id</span></span>
+        <span class="role">admin</span>
+      </div>
+      <div class="ep-body">
+        <div class="ep-body-label">Body (all optional)</div>
+        <table>
+          <tr><th>Field</th><th>Type</th><th>Notes</th></tr>
+          <tr><td>title</td><td>string</td><td></td></tr>
+          <tr><td>amount</td><td>number</td><td></td></tr>
+          <tr><td>type</td><td>INCOME | EXPENSE</td><td></td></tr>
+          <tr><td>category</td><td>string</td><td></td></tr>
+          <tr><td>date</td><td>string</td><td>ISO-8601</td></tr>
+        </table>
+        <div class="ep-body-label">Response 200</div>
+        <pre>{ <span class="k">"message"</span>: <span class="s">"Transaction updated"</span>, <span class="k">"transaction"</span>: { <span class="c">/* updated */</span> } }</pre>
+      </div>
+    </div>
+
+    <div class="endpoint" onclick="toggle(this)">
+      <div class="endpoint-row">
+        <span class="method m-del">DEL</span>
+        <span class="path">/transactions/<span class="p">:id</span></span>
+        <span class="role">admin</span>
+      </div>
+      <div class="ep-body">
+        <div class="ep-body-label">Response 200</div>
+        <pre>{ <span class="k">"message"</span>: <span class="s">"Transaction deleted successfully"</span> }</pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">Dashboard</div>
+
+    <div class="endpoint" onclick="toggle(this)">
+      <div class="endpoint-row">
+        <span class="method m-get">GET</span>
+        <span class="path">/dashboard/summary</span>
+        <span class="role">all roles</span>
+      </div>
+      <div class="ep-body">
+        <div class="ep-body-label">Response 200</div>
+        <pre>{ <span class="k">"summary"</span>: { <span class="k">"totalIncome"</span>: <span class="n">15000</span>, <span class="k">"totalExpenses"</span>: <span class="n">8200</span>, <span class="k">"netBalance"</span>: <span class="n">6800</span> } }</pre>
+      </div>
+    </div>
+
+    <div class="endpoint" onclick="toggle(this)">
+      <div class="endpoint-row">
+        <span class="method m-get">GET</span>
+        <span class="path">/dashboard/recent-transactions</span>
+        <span class="role">all roles</span>
+      </div>
+      <div class="ep-body">
+        <div class="ep-body-label">Query params</div>
+        <table>
+          <tr><th>Param</th><th>Type</th><th>Notes</th></tr>
+          <tr><td>limit</td><td>number</td><td>default 5</td></tr>
+        </table>
+        <div class="ep-body-label">Response 200</div>
+        <pre>{ <span class="k">"recentTransactions"</span>: [{ <span class="k">"id"</span>, <span class="k">"title"</span>, <span class="k">"amount"</span>, <span class="k">"type"</span>, <span class="k">"date"</span> }] }</pre>
+      </div>
+    </div>
+
+    <div class="endpoint" onclick="toggle(this)">
+      <div class="endpoint-row">
+        <span class="method m-get">GET</span>
+        <span class="path">/dashboard/monthly-trends</span>
+        <span class="role">all roles</span>
+      </div>
+      <div class="ep-body">
+        <div class="ep-body-label">Response 200</div>
+        <pre>{ <span class="k">"monthlyTrends"</span>: [{ <span class="k">"month"</span>: <span class="s">"2024-01"</span>, <span class="k">"income"</span>: <span class="n">5000</span>, <span class="k">"expenses"</span>: <span class="n">2800</span> }] }</pre>
+      </div>
+    </div>
+  </section>
+
+  <section class="roles-wrap">
+    <div class="section-label">Roles</div>
+    <table>
+      <tr><th>Endpoint</th><th>Viewer</th><th>Analyst</th><th>Admin</th></tr>
+      <tr><td>/auth/*</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+      <tr><td>GET transactions</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+      <tr><td>POST / PUT / DELETE transactions</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
+      <tr><td>GET dashboard/*</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <div class="section-label">Errors</div>
+    <div class="info-block" style="margin-bottom:12px">All errors return <code>{ "error": "message" }</code></div>
+    <div class="errors">
+      <div class="err"><div class="err-code">200</div><div class="err-name">OK</div></div>
+      <div class="err"><div class="err-code">201</div><div class="err-name">Created</div></div>
+      <div class="err"><div class="err-code">400</div><div class="err-name">Bad Request</div></div>
+      <div class="err"><div class="err-code">401</div><div class="err-name">Unauthorized</div></div>
+      <div class="err"><div class="err-code">403</div><div class="err-name">Forbidden</div></div>
+      <div class="err"><div class="err-code">404</div><div class="err-name">Not Found</div></div>
+      <div class="err"><div class="err-code">500</div><div class="err-name">Server Error</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">Setup</div>
+    <div class="step"><span class="step-n">1.</span><div class="step-body"><div class="step-title">Clone & install</div><pre>git clone https://github.com/AbhiramDaita/assesment
+cd assesment && npm install</pre></div></div>
+    <div class="step"><span class="step-n">2.</span><div class="step-body"><div class="step-title">Set .env</div><pre>DATABASE_URL="postgres://...@db.prisma.io:5432/postgres?sslmode=require"
+JWT_SECRET="your-secret"</pre></div></div>
+    <div class="step"><span class="step-n">3.</span><div class="step-body"><div class="step-title">Migrate & generate</div><pre>npx prisma migrate dev --name init && npx prisma generate</pre></div></div>
+    <div class="step"><span class="step-n">4.</span><div class="step-body"><div class="step-title">Run</div><pre>npm run dev</pre></div></div>
+  </section>
+
+  <footer>Finance Dashboard API · Node.js 24 · Express 5 · Prisma 5 · JWT</footer>
+
+</div>
+<script>
+function toggle(el) { el.classList.toggle('open'); }
+</script>
+</body>
+</html>
