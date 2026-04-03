@@ -104,4 +104,22 @@ Content-Type:application/json
 }
 ```
 
+### Design Decisions
+- Used Prisma for type safety and migration support
+- Used UUID for distributed scalability
+- Used Layered Architecture for maintainability
+- ISO-8601 enforced for DateTime Consistency
+- RESTful routing conventions followed
+
+
+### Error Handling Strategy
+- Service throw errors
+- Controllers handle HTTP response formatting
+- Consistent error structure:
+```
+{
+"error":"Error message"
+}
+```
+
 
