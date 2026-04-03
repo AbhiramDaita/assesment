@@ -247,6 +247,13 @@ footer {
 }
 </style>
 </head>
+
+  
+<script>
+function toggle(element) {
+  element.classList.toggle("open");
+}
+</script>
 <body>
 <div class="wrap">
 
@@ -308,6 +315,66 @@ footer {
         </table>
         <div class="ep-body-label">Response 200</div>
         <pre>{ <span class="k">"token"</span>: <span class="s">"eyJhbGci..."</span>, <span class="k">"user"</span>: { <span class="k">"id"</span>, <span class="k">"name"</span>, <span class="k">"role"</span> } }</pre>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-label">Users</div>
+
+    <div class="endpoint" onclick="toggle(this)">
+      <div class="endpoint-row">
+        <span class="method m-get">GET</span>
+        <span class="path">/users</span>
+        <span class="role">admin</span>
+      </div>
+      <div class="ep-body">
+        <div class="ep-body-label">Response 200</div>
+        <pre>{ <span class="k">"users"</span>: [{ <span class="k">"id"</span>, <span class="k">"name"</span>, <span class="k">"email"</span>, <span class="k">"role"</span>, <span class="k">"status"</span> }] }</pre>
+      </div>
+    </div>
+
+    <div class="endpoint" onclick="toggle(this)">
+      <div class="endpoint-row">
+        <span class="method m-put">PUT</span>
+        <span class="path">/users/<span class="p">:userId</span>/role</span>
+        <span class="role">admin</span>
+      </div>
+      <div class="ep-body">
+        <div class="ep-body-label">Path</div>
+        <table>
+          <tr><th>Param</th><th>Type</th><th>Notes</th></tr>
+          <tr><td>userId</td><td>string</td><td>UUID of user</td></tr>
+        </table>
+        <div class="ep-body-label">Body</div>
+        <table>
+          <tr><th>Field</th><th>Type</th><th>Notes</th></tr>
+          <tr><td>role</td><td>ADMIN | ANALYST | VIEWER</td><td>required</td></tr>
+        </table>
+        <div class="ep-body-label">Response 200</div>
+        <pre>{ <span class="k">"message"</span>: <span class="s">"Role updated"</span>, <span class="k">"user"</span>: { <span class="c">/* updated object */</span> } }</pre>
+      </div>
+    </div>
+
+    <div class="endpoint" onclick="toggle(this)">
+      <div class="endpoint-row">
+        <span class="method m-put">PUT</span>
+        <span class="path">/users/<span class="p">:userId</span>/status</span>
+        <span class="role">admin</span>
+      </div>
+      <div class="ep-body">
+        <div class="ep-body-label">Path</div>
+        <table>
+          <tr><th>Param</th><th>Type</th><th>Notes</th></tr>
+          <tr><td>userId</td><td>string</td><td>UUID of user</td></tr>
+        </table>
+        <div class="ep-body-label">Body</div>
+        <table>
+          <tr><th>Field</th><th>Type</th><th>Notes</th></tr>
+          <tr><td>status</td><td>ACTIVE | INACTIVE</td><td>required</td></tr>
+        </table>
+        <div class="ep-body-label">Response 200</div>
+        <pre>{ <span class="k">"message"</span>: <span class="s">"Status updated"</span>, <span class="k">"user"</span>: { <span class="c">/* updated object */</span> } }</pre>
       </div>
     </div>
   </section>
@@ -458,6 +525,8 @@ footer {
     <table>
       <tr><th>Endpoint</th><th>Viewer</th><th>Analyst</th><th>Admin</th></tr>
       <tr><td>/auth/*</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+      <tr><td>GET /users</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
+      <tr><td>PUT /users/:id/role · /status</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
       <tr><td>GET transactions</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
       <tr><td>POST / PUT / DELETE transactions</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
       <tr><td>GET dashboard/*</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
@@ -482,17 +551,10 @@ footer {
     <div class="section-label">Setup</div>
     <div class="step"><span class="step-n">1.</span><div class="step-body"><div class="step-title">Clone & install</div><pre>git clone https://github.com/AbhiramDaita/assesment
 cd assesment && npm install</pre></div></div>
-    <div class="step"><span class="step-n">2.</span><div class="step-body"><div class="step-title">Set .env</div><pre>DATABASE_URL="postgres://...@db.prisma.io:5432/postgres?sslmode=require"
+    <div class="step"><span class="step-n">2.</span><div class="step-body"><div class="step-title">Set .env</div><pre>DATABASE_URL="postgres://<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="072929294763652977756e746a66296e68">[email&#160;protected]</a>:5432/postgres?sslmode=require"
 JWT_SECRET="your-secret"</pre></div></div>
     <div class="step"><span class="step-n">3.</span><div class="step-body"><div class="step-title">Migrate & generate</div><pre>npx prisma migrate dev --name init && npx prisma generate</pre></div></div>
     <div class="step"><span class="step-n">4.</span><div class="step-body"><div class="step-title">Run</div><pre>npm run dev</pre></div></div>
   </section>
 
-  <footer>Finance Dashboard API · Node.js 24 · Express 5 · Prisma 5 · JWT</footer>
-
-</div>
-<script>
-function toggle(el) { el.classList.toggle('open'); }
-</script>
-</body>
-</html>
+  <footer>Finance Dashboard API · Node.js 24 · Express 5 · Pr
