@@ -122,4 +122,64 @@ Content-Type:application/json
 }
 ```
 
+### Architectural Trade-offs
+1. No External Validation Library
+   Decision :
+   Basic validation handled manually inside services.
+
+   Trade-off:
+      - Faster development.
+      - Less strict request validation.
+  
+   Why:
+   Adding Zod/Joi would improve robustness, but was intentionally avoided to keep dependencies minimal.
+
+2. Prisma ORM over Raw SQL
+   Decision :
+   Used Prisma for DB access.
+
+   Trade-off :
+      - Slight abstraction overgead.
+      - Less granular query control compared to raw SQL.
+  
+   Why:
+   - Type safety
+   - Migration management
+   - Faster development
+   - Clean schema management
+
+3. UUID instead of Auto-Increment IDs
+   Decision:
+   Used UUID for primary keys.
+
+   Trade-off:
+      - Slightly larger index size.
+      - Slight performance overhead.
+
+   Why :
+      - Better for distributed systems.
+      - Avoids ID enumeration attacks.
+      - Safer for public APIs
+
+
+### Assumptions Made
+1. Single-User Context per Token
+   Each Request assumes:
+   - Valid JWT
+   - User exists
+   - No token revocation logic implemented
+  
+2. Financial Accuracy Scope
+   - No currency conversion
+   - No multi-currency support
+   - No tax calculation
+   Assumed single currency usage.
+
+3. Transaction Ownership
+   Assumed:
+   - Users can only access their own transactions.
+   - No shared accounts or multi-user collaboration
+  
+
+
 
