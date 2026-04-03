@@ -3,7 +3,7 @@ const router = express.Router();
 
 export default function UserServiceRoutes(userServiceController) {
     router.get("/getUsers", userServiceController.getUsers);
-    router.put("/updateUserRole/:userId", userServiceController.updateUserRole);
-    router.put("/updateUserStatus/:userId", userServiceController.updateUserStatus);
+    router.put("/role/:userId", userServiceController.updateUserRole);
+    router.put("/status/:userId", userServiceController.updateUserStatus);
     return router;
 }
