@@ -52,8 +52,7 @@ export default function AuthServices(){
                     role: "VIEWER"
                 }
             });
-
-            return { message: 'Registration successful', user };    
+             return { message: 'Registration successful',user: { id: user.id, name: user.name, email: user.email } };    
         }
 
     }
