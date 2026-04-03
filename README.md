@@ -37,8 +37,8 @@ The backend is built with Node.js, Express, Prisma and PostgreSQL.
    ```
 3. Set environment variables in .env
    ```
-   DATABASE_URL="postgres://aceccec39a1d4c60695dcea120fdd881504df477c47657614eea20ff8b8ba40a:sk_ivBqBQYFwx4b_PZGSZJKF@db.prisma.io:5432/postgres?sslmode=require"
-   JWT_SECRET="everynightinmydreams"
+   DATABASE_URL="postgres://...@db.prisma.io:5432/postgres?sslmode=require"
+   JWT_SECRET="your-secret"
    ```
 4. Prisma setup
    ```bash
