@@ -62,11 +62,11 @@ Transactions
 
 | Method | Endpoint | Description | Role |
 | :--- | :--- | :--- | :--- |
-| POST | /api/v1/transactions/createTransaction| Create transaction | Admin|
-| GET | /api/v1/transactions/getTransactions | List all transactions | Admin/Analyst/Viewer|
-| GET | /api/v1/transactions/getTransactionById/:id | Get transaction by ID | Admin/Analyst/Viewer|
-| PUT | /api/v1/transactions/updateTransactionById/:id| Update transaction | Admin |
-| DELETE | /api/v1/transactions/deleteTransaction/:id|Delete transaction | Admin|
+| POST | /api/v1/transactions/transaction| Create transaction | Admin|
+| GET | /api/v1/transactions/transactions | List all transactions | Admin/Analyst/Viewer|
+| GET | /api/v1/transactions/transaction/:id | Get transaction by ID | Admin/Analyst/Viewer|
+| PUT | /api/v1/transactions/transaction/:id| Update transaction | Admin |
+| DELETE | /api/v1/transactions/transaction/:id|Delete transaction | Admin|
 
 Dashboard
 
@@ -75,6 +75,15 @@ Dashboard
 | GET | /api/v1/dashboard/summary | Total income, expenses, net balance | Analyst/Viewer/Admin |
 | GET | /api/v1/dashboard/recent-transactions | Recent transactions | Analyst/Viewer/Admin | 
 | GET | /api/v1/dashboard/monthly-trends | Monthly trends aggregation | Analyst/Viewer/Admin |
+
+
+User Services
+
+| Method | Endpoint | Description | Role|
+| :--- | :--- | :--- | :--- |
+| GET | /api/v1/users/getUsers | List all users | Admin | 
+| PUT | /api/v1/users/role/:userId | Update Role of user | Admin | 
+| PUT | /api/v1/users/status/:userId | Upadate Status of user | Admin | 
 
 
 ### Middleware
