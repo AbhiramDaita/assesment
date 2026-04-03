@@ -5,11 +5,11 @@ import {authorizeRoles} from '../middleware/roleMiddleware.js';
 
 export default function TransactionRoutes(transactionController) {
 
-    router.post("/createTransaction", authenticateToken,authorizeRoles('ADMIN'), transactionController.create);
-    router.get("/getTransactions", authenticateToken, transactionController.getTransactions);
-    router.get("/getTransactionById/:id", authenticateToken, transactionController.getTransactionById);
-    router.put("/updateTransaction/:id", authenticateToken, authorizeRoles('ADMIN'), transactionController.updateTransaction);
-    router.delete("/deleteTransaction/:id", authenticateToken, authorizeRoles('ADMIN'), transactionController.deleteTransaction);
+    router.post("/transaction", authenticateToken,authorizeRoles('ADMIN'), transactionController.create);
+    router.get("/transactions", authenticateToken, transactionController.getTransactions);
+    router.get("/transaction/:id", authenticateToken, transactionController.getTransactionById);
+    router.put("/transaction/:id", authenticateToken, authorizeRoles('ADMIN'), transactionController.updateTransaction);
+    router.delete("/transaction/:id", authenticateToken, authorizeRoles('ADMIN'), transactionController.deleteTransaction);
 
     return router;
 
